@@ -3,6 +3,9 @@ package br.com.forum.models;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,8 +17,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Answer {
 
-    @Id()
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @ColumnDefault("random_uuid()")
+    @Type(type = "uuid-char")
     private UUID uuid;
     private String message;
 

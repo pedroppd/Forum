@@ -1,11 +1,11 @@
 package br.com.forum.models;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -16,8 +16,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Course {
 
-    @Id()
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @ColumnDefault("random_uuid()")
+    @Type(type = "uuid-char")
     private UUID uuid;
     private String name;
     private String category;

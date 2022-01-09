@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,16 +19,21 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Topic {
 
-    @Id()
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @ColumnDefault("random_uuid()")
+    @Type(type = "uuid-char")
     private UUID uuid;
     private String tittle;
     private String message;
+
+    @Column(name = "creationDate")
     private LocalDateTime creationDate = LocalDateTime.now();
+
+    @Column(name = "status")
     private TopicState status = TopicState.NOT_ANSWERED;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn()
+    @ManyToOne()
+    @JoinColumn(name = "authorUuid")
     private User author;
 
     @ManyToOne()
