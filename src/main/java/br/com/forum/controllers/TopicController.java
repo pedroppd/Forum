@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j()
@@ -36,14 +38,14 @@ public class TopicController {
             if(tittle != null){
                 Topic topic = topicService.findByTittle(tittle);
                 if(topic != null){
-                    return ResponseEntity.ok().body(new TopicDto(topic));
+                    return ResponseEntity.ok().body(Arrays.asList(new TopicDto(topic)));
                 }
-                return ResponseEntity.ok().body(String.format("Topic with tittle '%s' not found", tittle));
+                return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok().body(new TopicDto().converter(topicRepository.findAll()));
         }catch(Exception ex){
             log.error(String.format("Error: %s", ex.getMessage()), tid);
-            return ResponseEntity.status(500).body(new Object[]{"Internal server error", tid});
+            return ResponseEntity.internalServerError().build();
         }
     }
 
