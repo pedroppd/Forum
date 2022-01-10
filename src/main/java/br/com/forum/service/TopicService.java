@@ -18,11 +18,7 @@ public class TopicService {
 
     public Topic findByTittle(String tittle) throws Exception {
         try{
-            Optional<Topic> topic = topicRepository.findByTittle(tittle);
-            if(topic.isPresent()){
-                return topic.get();
-            }
-            return null;
+           return topicRepository.findByTittle(tittle).orElse(null);
         }catch(Exception ex){
             log.error(String.format("Error: %s", ex.getMessage()));
             throw new Exception(ex.getMessage());
