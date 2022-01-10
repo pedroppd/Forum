@@ -35,6 +35,10 @@ public class TopicDto {
         this.setCreationDate(topic.getCreationDate());
     }
 
+    public TopicDto() {
+
+    }
+
     public List<TopicDto> converter(List<Topic> topics){
         return topics.stream().map(TopicDto::new).collect(Collectors.toList());
     }

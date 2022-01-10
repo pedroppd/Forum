@@ -1,6 +1,7 @@
 package br.com.forum.models;
 
 import br.com.forum.models.enums.TopicState;
+import br.com.forum.models.form.TopicForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Builder
+@Builder(toBuilder=true)
 @AllArgsConstructor
 public class Topic {
 
@@ -46,5 +47,12 @@ public class Topic {
 
     public Topic() {
 
+    }
+
+    public Topic converter(TopicForm topicForm){
+        return new Topic()
+                .toBuilder()
+                .tittle(topicForm.getTittle())
+                .message(topicForm.getMessage()).build();
     }
 }
