@@ -46,6 +46,5 @@ public class Topic {
     private List<Answer> answers = new ArrayList<>();
 
     public Topic() {
-
     }
 }

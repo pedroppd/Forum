@@ -12,7 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -54,13 +57,14 @@ public class TopicController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveTopic(@RequestBody TopicForm topicForm ){
+    public ResponseEntity<?> saveTopic(@RequestBody TopicForm topicForm, UriComponentsBuilder uriBuilder){
         UUID tid = UUID.randomUUID();
         log.info("Stating getTopics saveTopic", tid);
         try{
             Topic topicBuild = topicForm.converter(courseService, userService);
             Topic topic = topicService.saveTopic(topicBuild);
-            return ResponseEntity.status(201).body(new TopicDto(topic));
+            URI uri = uriBuilder.path("/topic/{uuid}").buildAndExpand(topic.getUuid()).toUri();
+            return ResponseEntity.created(uri).body(new TopicDto(topic));
         }catch (Exception ex){
             log.error(String.format("Error: %s", ex.getMessage()), tid);
             return ResponseEntity.status(500).body("Internal server error");
