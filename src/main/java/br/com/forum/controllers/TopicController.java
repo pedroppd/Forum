@@ -7,6 +7,7 @@ import br.com.forum.models.form.TopicForm;
 import br.com.forum.repository.ITopicRepository;
 import br.com.forum.service.CourseService;
 import br.com.forum.service.TopicService;
+import br.com.forum.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class TopicController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<?> getTopics(@RequestParam(value = "tittle", required = false) String tittle) {
@@ -54,7 +58,7 @@ public class TopicController {
         UUID tid = UUID.randomUUID();
         log.info("Stating getTopics saveTopic", tid);
         try{
-            Topic topicBuild = topicService.buildTopic(topicForm);
+            Topic topicBuild = topicForm.converter(courseService, userService);
             Topic topic = topicService.saveTopic(topicBuild);
             return ResponseEntity.status(201).body(new TopicDto(topic));
         }catch (Exception ex){

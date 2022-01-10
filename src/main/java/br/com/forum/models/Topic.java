@@ -48,11 +48,4 @@ public class Topic {
     public Topic() {
 
     }
-
-    public Topic converter(TopicForm topicForm){
-        return new Topic()
-                .toBuilder()
-                .tittle(topicForm.getTittle())
-                .message(topicForm.getMessage()).build();
-    }
 }
