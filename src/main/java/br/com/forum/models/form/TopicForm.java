@@ -25,8 +25,7 @@ public class TopicForm {
     @NotNull @NotEmpty
     private String courseUuid;
 
-    public Topic converter(CourseService courseService, UserService userService) throws Exception {
-            try{
+    public Topic converter(CourseService courseService, UserService userService) {
                 Course course = courseService.findByUuid(UUID.fromString(this.getCourseUuid()));
                 User user = userService.findByUuid(UUID.fromString(this.getAuthorUuid()));
                 return new Topic()
@@ -37,9 +36,5 @@ public class TopicForm {
                         .course(course)
                         .author(user)
                         .build();
-
-            }catch(Exception ex){
-                throw new Exception(ex.getMessage());
-            }
     }
 }

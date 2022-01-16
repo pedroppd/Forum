@@ -49,7 +49,7 @@ public class Topic {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column(name = "deletedAt")
-    private LocalDateTime deletedAt = LocalDateTime.now();
+    private LocalDateTime deletedAt;
 
     public Topic() {
     }

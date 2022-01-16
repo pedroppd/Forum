@@ -1,9 +1,9 @@
 package br.com.forum.controllers;
 
-import br.com.forum.models.Course;
 import br.com.forum.models.Topic;
 import br.com.forum.models.dto.TopicDto;
 import br.com.forum.models.form.TopicForm;
+import br.com.forum.models.form.TopicUpdateForm;
 import br.com.forum.repository.ITopicRepository;
 import br.com.forum.service.CourseService;
 import br.com.forum.service.TopicService;
@@ -13,12 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -71,5 +69,15 @@ public class TopicController {
         Topic topic = topicService.saveTopic(topicBuild);
         URI uri = uriBuilder.path("/topic/{uuid}").buildAndExpand(topic.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new TopicDto(topic));
+    }
+
+    @PutMapping(value = "/{uuid}")
+    @Transactional
+    public ResponseEntity<TopicDto> upadateTopic(@PathVariable String uuid, @RequestBody @Valid TopicUpdateForm topicForm)  {
+        UUID tid = UUID.randomUUID();
+        log.info("Starting upadateTopic endpoint", tid);
+        Topic topic = topicForm.update(UUID.fromString(uuid), topicService);
+        topicService.saveTopic(topic);
+        return ResponseEntity.ok().body(new TopicDto(topic));
     }
 }

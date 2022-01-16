@@ -16,7 +16,6 @@ public class CourseService {
 
     public Course findByUuid(UUID courseUuid) {
         Optional<Course> course = courseRepository.findByUuid(courseUuid);
-
         if(course.isPresent()){
             return course.get();
         }
