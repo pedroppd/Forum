@@ -80,4 +80,13 @@ public class TopicController {
         topicService.saveTopic(topic);
         return ResponseEntity.ok().body(new TopicDto(topic));
     }
+
+    @DeleteMapping(value = "/{uuid}")
+    public ResponseEntity<TopicDto> deleteTopic(@PathVariable String uuid)  {
+        UUID tid = UUID.randomUUID();
+        log.info("Starting deleteTopic endpoint", tid);
+        Topic topic = topicService.findByUuid(UUID.fromString(uuid));
+        topicService.deleteTopic(topic);
+        return ResponseEntity.ok().build();
+    }
 }

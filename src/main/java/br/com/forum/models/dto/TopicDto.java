@@ -36,6 +36,7 @@ public class TopicDto {
         this.setStatus(topic.getStatus());
         this.setCreatedAt(topic.getCreatedAt());
         this.setUpdatedAt(topic.getUpdatedAt());
+        this.setDeletedAt(topic.getDeletedAt());
     }
 
     public TopicDto() {
