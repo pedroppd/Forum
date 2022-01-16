@@ -28,9 +28,16 @@ public class ValidationErrorHandler {
                 .stream()
                 .forEach(e -> {
                     String errorMessage = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-                    errorDtoList.add( new ErrorDto(e.getCode(), e.getField(), errorMessage));
+                    errorDtoList.add( new ErrorDto(HttpStatus.BAD_REQUEST, e.getField(), errorMessage));
                 });
 
         return errorDtoList;
+    }
+
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorDto handler(IllegalArgumentException exception){
+        return new ErrorDto(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 }

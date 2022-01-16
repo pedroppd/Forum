@@ -24,6 +24,8 @@ public class TopicDto {
     private String tittle;
     private String message;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
     private TopicState status;
 
 
@@ -33,6 +35,7 @@ public class TopicDto {
         this.setMessage(topic.getMessage());
         this.setStatus(topic.getStatus());
         this.setCreatedAt(topic.getCreatedAt());
+        this.setUpdatedAt(topic.getUpdatedAt());
     }
 
     public TopicDto() {

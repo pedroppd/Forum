@@ -55,6 +55,14 @@ public class TopicController {
             return ResponseEntity.ok().body(new TopicDto().converter(topicRepository.findAll()));
     }
 
+    @GetMapping(value = "/{uuid}")
+    public ResponseEntity<TopicDto> getTopicsByUuid(@PathVariable String uuid) {
+        UUID tid = UUID.randomUUID();
+        log.info("Starting getTopicsByUuid endpoint", tid);
+        Topic topic = topicService.findByUuid(UUID.fromString(uuid));
+        return ResponseEntity.ok().body(new TopicDto(topic));
+    }
+
     @PostMapping
     public ResponseEntity<TopicDto> saveTopic(@RequestBody @Valid TopicForm topicForm, UriComponentsBuilder uriBuilder) throws Exception {
         UUID tid = UUID.randomUUID();
