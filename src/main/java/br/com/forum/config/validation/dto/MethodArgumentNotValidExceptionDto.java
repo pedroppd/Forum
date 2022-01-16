@@ -1,13 +1,14 @@
 package br.com.forum.config.validation.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-@AllArgsConstructor
-public class MethodArgumentNotValidExceptionDto {
-    private int status;
+public class MethodArgumentNotValidExceptionDto extends ErrorDto{
     private String field;
-    private String message;
+
+    public MethodArgumentNotValidExceptionDto(int status, String field, String message) {
+        super(status, message);
+        this.setField(field);
+    }
 }

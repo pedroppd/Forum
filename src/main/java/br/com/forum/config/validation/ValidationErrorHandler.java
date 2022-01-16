@@ -1,6 +1,6 @@
 package br.com.forum.config.validation;
 
-import br.com.forum.config.validation.dto.IllegalArgumentExceptionDto;
+import br.com.forum.config.validation.dto.ErrorDto;
 import br.com.forum.config.validation.dto.MethodArgumentNotValidExceptionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -36,9 +36,14 @@ public class ValidationErrorHandler {
     }
 
 
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NullPointerException.class)
+    public void handler(){
+    }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public IllegalArgumentExceptionDto handler(IllegalArgumentException exception){
-        return new IllegalArgumentExceptionDto(400, exception.getMessage());
+    public ErrorDto handler(IllegalArgumentException exception){
+        return new ErrorDto(400, exception.getMessage());
     }
 }
