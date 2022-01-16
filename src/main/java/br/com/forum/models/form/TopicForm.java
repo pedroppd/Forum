@@ -8,15 +8,21 @@ import br.com.forum.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Getter
 @Setter
 public class TopicForm {
+    @NotNull @NotEmpty
     private String tittle;
+    @NotNull @NotEmpty
     private String message;
     //mocado temporariamente
+    @NotNull @NotEmpty
     private String authorUuid = "965aab64-2d27-4391-ad95-3fc3736d1045";
+    @NotNull @NotEmpty
     private String courseUuid;
 
     public Topic converter(CourseService courseService, UserService userService) throws Exception {

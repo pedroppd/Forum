@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -57,9 +60,9 @@ public class TopicController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveTopic(@RequestBody TopicForm topicForm, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<?> saveTopic(@RequestBody @Valid TopicForm topicForm, UriComponentsBuilder uriBuilder){
         UUID tid = UUID.randomUUID();
-        log.info("Stating getTopics saveTopic", tid);
+        log.info("Starting getTopics saveTopic", tid);
         try{
             Topic topicBuild = topicForm.converter(courseService, userService);
             Topic topic = topicService.saveTopic(topicBuild);
