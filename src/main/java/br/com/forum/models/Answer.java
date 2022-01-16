@@ -27,7 +27,14 @@ public class Answer {
     @JoinColumn()
     private Topic topic;
 
-    private LocalDateTime creationDate = LocalDateTime.now();
+    @Column(name = "createdAt")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "updatedAt")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Column(name = "deletedAt")
+    private LocalDateTime deletedAt = LocalDateTime.now();
 
     @ManyToOne()
     @JoinColumn(name = "authorUuid")

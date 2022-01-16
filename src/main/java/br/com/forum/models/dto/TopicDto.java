@@ -23,7 +23,7 @@ public class TopicDto {
     private UUID uuid;
     private String tittle;
     private String message;
-    private LocalDateTime creationDate;
+    private LocalDateTime createdAt;
     private TopicState status;
 
 
@@ -32,7 +32,7 @@ public class TopicDto {
         this.setTittle(topic.getTittle());
         this.setMessage(topic.getMessage());
         this.setStatus(topic.getStatus());
-        this.setCreationDate(topic.getCreationDate());
+        this.setCreatedAt(topic.getCreatedAt());
     }
 
     public TopicDto() {

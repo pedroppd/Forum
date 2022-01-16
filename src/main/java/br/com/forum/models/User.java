@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -24,6 +25,15 @@ public class User {
     private String name;
     private String email;
     private String password;
+
+    @Column(name = "createdAt")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "updatedAt")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Column(name = "deletedAt")
+    private LocalDateTime deletedAt = LocalDateTime.now();
 
     public User() {
 

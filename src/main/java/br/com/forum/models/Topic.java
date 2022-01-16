@@ -27,9 +27,6 @@ public class Topic {
     private String tittle;
     private String message;
 
-    @Column(name = "creationDate")
-    private LocalDateTime creationDate = LocalDateTime.now();
-
     @Column(name = "status")
     private TopicState status = TopicState.NOT_ANSWERED;
 
@@ -44,6 +41,15 @@ public class Topic {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
     @JsonIgnore
     private List<Answer> answers = new ArrayList<>();
+
+    @Column(name = "createdAt")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "updatedAt")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Column(name = "deletedAt")
+    private LocalDateTime deletedAt = LocalDateTime.now();
 
     public Topic() {
     }
