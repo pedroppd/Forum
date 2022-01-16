@@ -8,6 +8,7 @@ import br.com.forum.repository.ITopicRepository;
 import br.com.forum.service.CourseService;
 import br.com.forum.service.TopicService;
 import br.com.forum.service.UserService;
+import br.com.forum.utils.TopicUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +42,10 @@ public class TopicController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> getTopics(@RequestParam(value = "tittle", required = false) String tittle) {
+    public ResponseEntity<List<TopicDto>> getTopics(@RequestParam(value = "tittle", required = false) String tittle) throws Exception {
         UUID tid = UUID.randomUUID();
         log.info("Starting getTopics endpoint", tid);
-        try{
-            if(tittle != null){
+            if(TopicUtils.hasValue(tittle)){
                 Topic topic = topicService.findByTittle(tittle);
                 if(topic != null){
                     return ResponseEntity.ok().body(Arrays.asList(new TopicDto(topic)));
@@ -53,24 +53,15 @@ public class TopicController {
                 return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok().body(new TopicDto().converter(topicRepository.findAll()));
-        }catch(Exception ex){
-            log.error(String.format("Error: %s", ex.getMessage()), tid);
-            return ResponseEntity.internalServerError().build();
-        }
     }
 
     @PostMapping
-    public ResponseEntity<?> saveTopic(@RequestBody @Valid TopicForm topicForm, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<TopicDto> saveTopic(@RequestBody @Valid TopicForm topicForm, UriComponentsBuilder uriBuilder) throws Exception {
         UUID tid = UUID.randomUUID();
-        log.info("Starting getTopics saveTopic", tid);
-        try{
-            Topic topicBuild = topicForm.converter(courseService, userService);
-            Topic topic = topicService.saveTopic(topicBuild);
-            URI uri = uriBuilder.path("/topic/{uuid}").buildAndExpand(topic.getUuid()).toUri();
-            return ResponseEntity.created(uri).body(new TopicDto(topic));
-        }catch (Exception ex){
-            log.error(String.format("Error: %s", ex.getMessage()), tid);
-            return ResponseEntity.status(500).body("Internal server error");
-        }
+        log.info("Starting saveTopic endpoint", tid);
+        Topic topicBuild = topicForm.converter(courseService, userService);
+        Topic topic = topicService.saveTopic(topicBuild);
+        URI uri = uriBuilder.path("/topic/{uuid}").buildAndExpand(topic.getUuid()).toUri();
+        return ResponseEntity.created(uri).body(new TopicDto(topic));
     }
 }

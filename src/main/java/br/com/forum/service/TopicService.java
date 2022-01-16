@@ -6,9 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-
 @Service
 @Slf4j
 public class TopicService {
@@ -16,23 +13,12 @@ public class TopicService {
     @Autowired
     private ITopicRepository topicRepository;
 
-    public Topic findByTittle(String tittle) throws Exception {
-        try{
-           return topicRepository.findByTittle(tittle).orElse(null);
-        }catch(Exception ex){
-            log.error(String.format("Error: %s", ex.getMessage()));
-            throw new Exception(ex.getMessage());
-        }
-
+    public Topic findByTittle(String tittle) {
+        return topicRepository.findByTittle(tittle).orElse(null);
     }
 
-    public Topic saveTopic(Topic topic) throws Exception {
-        try{
-            return topicRepository.save(topic);
-        }catch(Exception ex){
-            log.error(String.format("Error: %s", ex.getMessage()));
-            throw new Exception(ex.getMessage());
-        }
+    public Topic saveTopic(Topic topic) {
+        return topicRepository.save(topic);
     }
 
 }
