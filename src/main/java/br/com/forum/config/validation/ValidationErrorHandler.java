@@ -35,12 +35,6 @@ public class ValidationErrorHandler {
         return errorDtoList;
     }
 
-
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NullPointerException.class)
-    public void handler(){
-    }
-
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ErrorDto handler(IllegalArgumentException exception){

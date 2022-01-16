@@ -58,7 +58,10 @@ public class TopicController {
         UUID tid = UUID.randomUUID();
         log.info("Starting getTopicsByUuid endpoint", tid);
         Topic topic = topicService.findByUuid(UUID.fromString(uuid));
-        return ResponseEntity.ok().body(new TopicDto(topic));
+        if(topic != null){
+            return ResponseEntity.ok().body(new TopicDto(topic));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -77,8 +80,11 @@ public class TopicController {
         UUID tid = UUID.randomUUID();
         log.info("Starting upadateTopic endpoint", tid);
         Topic topic = topicForm.update(UUID.fromString(uuid), topicService);
-        topicService.saveTopic(topic);
-        return ResponseEntity.ok().body(new TopicDto(topic));
+        if(topic != null){
+            topicService.saveTopic(topic);
+            return ResponseEntity.ok().body(new TopicDto(topic));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping(value = "/{uuid}")
@@ -86,7 +92,10 @@ public class TopicController {
         UUID tid = UUID.randomUUID();
         log.info("Starting deleteTopic endpoint", tid);
         Topic topic = topicService.findByUuid(UUID.fromString(uuid));
-        topicService.deleteTopic(topic);
-        return ResponseEntity.ok().build();
+        if(topic != null){
+            topicService.deleteTopic(topic);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
