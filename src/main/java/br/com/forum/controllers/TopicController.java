@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -45,9 +46,10 @@ public class TopicController {
     @GetMapping
     public ResponseEntity<Page<TopicDto>> getTopics(@RequestParam(value = "tittle", required = false) String tittle,
                                                     @RequestParam(value = "page", required = false) int page,
-                                                    @RequestParam(value = "size", required = false) int size) {
+                                                    @RequestParam(value = "size", required = false) int size,
+                                                    @RequestParam(value = "order", required = false) String order) {
         UUID tid = UUID.randomUUID();
-        Pageable pagination = PageRequest.of(page, size);
+        Pageable pagination = PageRequest.of(page, size, Sort.Direction.DESC, order);
         log.info("Starting getTopics endpoint", tid);
             if(TopicUtils.hasValue(tittle)){
                 Page<Topic> topic = topicService.findByTittle(tittle, pagination);
