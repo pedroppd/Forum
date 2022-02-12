@@ -11,6 +11,9 @@ import br.com.forum.service.UserService;
 import br.com.forum.utils.TopicUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -40,17 +43,21 @@ public class TopicController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<TopicDto>> getTopics(@RequestParam(value = "tittle", required = false) String tittle) throws Exception {
+    public ResponseEntity<Page<TopicDto>> getTopics(@RequestParam(value = "tittle", required = false) String tittle,
+                                                    @RequestParam(value = "page", required = false) int page,
+                                                    @RequestParam(value = "size", required = false) int size) {
         UUID tid = UUID.randomUUID();
+        Pageable pagination = PageRequest.of(page, size);
         log.info("Starting getTopics endpoint", tid);
             if(TopicUtils.hasValue(tittle)){
-                Topic topic = topicService.findByTittle(tittle);
+                Page<Topic> topic = topicService.findByTittle(tittle, pagination);
                 if(topic != null){
-                    return ResponseEntity.ok().body(Arrays.asList(new TopicDto(topic)));
+                    return ResponseEntity.ok().body(TopicDto.converter(topic));
                 }
                 return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.ok().body(new TopicDto().converter(topicRepository.findAll()));
+            Page<Topic> result = topicRepository.findAll(pagination);
+            return ResponseEntity.ok().body(TopicDto.converter(result));
     }
 
     @GetMapping(value = "/{uuid}")

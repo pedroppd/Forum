@@ -4,6 +4,8 @@ import br.com.forum.models.Topic;;
 import br.com.forum.repository.ITopicRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,8 +19,8 @@ public class TopicService {
     @Autowired
     private ITopicRepository topicRepository;
 
-    public Topic findByTittle(String tittle) {
-        return topicRepository.findByTittle(tittle).orElse(null);
+    public Page<Topic> findByTittle(String tittle, Pageable pagination) {
+        return topicRepository.findByTittle(tittle, pagination);
     }
 
     public Topic findByUuid(UUID uuid) {

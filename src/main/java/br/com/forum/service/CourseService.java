@@ -16,9 +16,9 @@ public class CourseService {
 
     public Course findByUuid(UUID courseUuid) {
         Optional<Course> course = courseRepository.findByUuid(courseUuid);
-        if(course.isPresent()){
-            return course.get();
+        if(course.isEmpty()){
+            throw new IllegalArgumentException(String.format("Course(%s) not found", courseUuid));
         }
-        return null;
+        return course.get();
     }
 }

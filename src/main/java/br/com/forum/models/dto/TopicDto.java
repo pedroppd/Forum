@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,7 +44,7 @@ public class TopicDto {
 
     }
 
-    public List<TopicDto> converter(List<Topic> topics){
-        return topics.stream().map(TopicDto::new).collect(Collectors.toList());
+    public static Page<TopicDto> converter(Page<Topic> topics){
+        return topics.map(TopicDto::new);
     }
 }

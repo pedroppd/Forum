@@ -29,7 +29,7 @@ public class ValidationErrorHandler {
                 .stream()
                 .forEach(e -> {
                     String errorMessage = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-                    errorDtoList.add( new MethodArgumentNotValidExceptionDto(400, e.getField(), errorMessage));
+                    errorDtoList.add(new MethodArgumentNotValidExceptionDto(400, e.getField(), errorMessage));
                 });
 
         return errorDtoList;
