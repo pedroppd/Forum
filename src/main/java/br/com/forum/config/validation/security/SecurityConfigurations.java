@@ -23,6 +23,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //Configurações de autorização
@@ -33,7 +36,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 //Setando filtro de autenticação antes do filtro padrão do spring
-                .and().addFilterBefore(new AuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AuthenticationTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

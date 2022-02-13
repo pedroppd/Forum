@@ -17,6 +17,15 @@ public class TokenService {
     @Value("${forum.jwt.secret}")
     private String secret;
 
+    public boolean isValidToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
+    }
+
     public String generateTokenJwt(Authentication authentication){
         User user = (User) authentication.getPrincipal();
         Date today = new Date();
