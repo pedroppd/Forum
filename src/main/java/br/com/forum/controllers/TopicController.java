@@ -11,8 +11,9 @@ import br.com.forum.service.UserService;
 import br.com.forum.utils.TopicUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -23,8 +24,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j()
@@ -45,6 +44,7 @@ public class TopicController {
     private UserService userService;
 
     @GetMapping
+    @Cacheable(value = "getTopics")
     public ResponseEntity<Page<TopicDto>> getTopics(@RequestParam(value = "tittle", required = false) String tittle,
                                                     @PageableDefault(sort = "uuid", direction = Sort.Direction.DESC) Pageable pagination) {
         UUID tid = UUID.randomUUID();
