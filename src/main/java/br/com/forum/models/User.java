@@ -20,7 +20,7 @@ import java.util.UUID;
 @Data
 @Builder
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "user")
 public class User implements UserDetails {
 
     @Id

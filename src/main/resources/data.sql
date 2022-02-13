@@ -1,4 +1,4 @@
-INSERT INTO users(uuid, name, email, password, created_at) VALUES('965aab64-2d27-4391-ad95-3fc3736d1045', 'Aluno', 'aluno@email.com', '123456', NOW());
+INSERT INTO user(uuid, name, email, password, created_at) VALUES('965aab64-2d27-4391-ad95-3fc3736d1045', 'Aluno', 'aluno@email.com', '$2a$10$sFKmbxbG4ryhwPNx/l3pgOJSt.fW1z6YcUnuE2X8APA/Z3NI/oSpq', NOW());
 
 INSERT INTO course(uuid, name, category, created_at) VALUES('518b543f-bcbb-4480-9660-28613260f2b4', 'Spring Boot', 'Programação', NOW());
 INSERT INTO course(uuid, name, category, created_at) VALUES('ff30d51a-7f1d-43e8-951a-6349d47f0e80','HTML 5', 'Front-end', NOW());
