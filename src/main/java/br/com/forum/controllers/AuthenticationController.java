@@ -2,6 +2,7 @@ package br.com.forum.controllers;
 
 import br.com.forum.config.validation.security.TokenService;
 import br.com.forum.models.Topic;
+import br.com.forum.models.dto.TokenDto;
 import br.com.forum.models.dto.TopicDto;
 import br.com.forum.models.form.AuthForm;
 import lombok.extern.slf4j.Slf4j;
@@ -29,17 +30,15 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping()
-    public ResponseEntity<AuthForm> authenticate(@RequestBody @Valid AuthForm authForm) {
+    public ResponseEntity<TokenDto> authenticate(@RequestBody @Valid AuthForm authForm) {
         UUID tid = UUID.randomUUID();
         try{
             Authentication auth = authenticationManager.authenticate(authForm.converter());
             String token = tokenService.generateTokenJwt(auth);
-            log.info("Bearer " + token);
-            return null;
+            return ResponseEntity.ok().body(new TokenDto(token, "Bearer"));
         }catch(AuthenticationException ex) {
             log.error("Error to try authenticate:" +  ex.getMessage(), tid);
             return ResponseEntity.badRequest().build();
         }
-
     }
 }
