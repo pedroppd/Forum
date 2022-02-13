@@ -1,12 +1,14 @@
 package br.com.forum.config.validation.security;
 
 import br.com.forum.models.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class TokenService {
@@ -37,5 +39,9 @@ public class TokenService {
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS256,secret)
                 .compact();
+    }
+
+    public UUID getUserUuid(String token) {
+        return UUID.fromString(Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody().getSubject());
     }
 }
