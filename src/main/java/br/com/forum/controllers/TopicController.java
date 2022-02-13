@@ -11,6 +11,7 @@ import br.com.forum.service.UserService;
 import br.com.forum.utils.TopicUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 
@@ -72,6 +73,7 @@ public class TopicController {
     }
 
     @PostMapping
+    @CacheEvict(value = "getTopics", allEntries = true)
     public ResponseEntity<TopicDto> saveTopic(@RequestBody @Valid TopicForm topicForm, UriComponentsBuilder uriBuilder) throws Exception {
         UUID tid = UUID.randomUUID();
         log.info("Starting saveTopic endpoint", tid);
@@ -83,6 +85,7 @@ public class TopicController {
 
     @PutMapping(value = "/{uuid}")
     @Transactional
+    @CacheEvict(value = "getTopics", allEntries = true)
     public ResponseEntity<TopicDto> upadateTopic(@PathVariable String uuid, @RequestBody @Valid TopicUpdateForm topicForm)  {
         UUID tid = UUID.randomUUID();
         log.info("Starting upadateTopic endpoint", tid);
@@ -95,6 +98,7 @@ public class TopicController {
     }
 
     @DeleteMapping(value = "/{uuid}")
+    @CacheEvict(value = "getTopics", allEntries = true)
     public ResponseEntity<TopicDto> deleteTopic(@PathVariable String uuid)  {
         UUID tid = UUID.randomUUID();
         log.info("Starting deleteTopic endpoint", tid);
