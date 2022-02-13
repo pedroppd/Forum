@@ -1,4 +1,4 @@
-package br.com.forum.config.validation.dto;
+package br.com.forum.config.validation.exception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

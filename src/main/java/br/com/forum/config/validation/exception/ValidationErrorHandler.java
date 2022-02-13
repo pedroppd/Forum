@@ -1,7 +1,7 @@
-package br.com.forum.config.validation;
+package br.com.forum.config.validation.exception;
 
-import br.com.forum.config.validation.dto.ErrorDto;
-import br.com.forum.config.validation.dto.MethodArgumentNotValidExceptionDto;
+import br.com.forum.config.validation.exception.dto.ErrorDto;
+import br.com.forum.config.validation.exception.dto.MethodArgumentNotValidExceptionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
